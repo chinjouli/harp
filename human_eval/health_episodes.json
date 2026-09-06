@@ -1,0 +1,72 @@
+{
+  "set01": [
+    "CC_RES_RES_sample_151",
+    "day1_consultation09",
+    "CC_MSK_MSK_sample_19",
+    "CC_RES_RES_sample_195",
+    "CC_RES_RES_sample_184"
+  ],
+  "set02": [
+    "CC_MSK_MSK_sample_8",
+    "CC_RES_RES_sample_86",
+    "CC_RES_RES_sample_128",
+    "CC_RES_RES_sample_20",
+    "CC_MSK_MSK_sample_39"
+  ],
+  "set03": [
+    "day2_consultation04",
+    "day3_consultation02",
+    "CC_RES_RES_sample_32",
+    "CC_RES_RES_sample_79",
+    "CC_RES_RES_sample_23"
+  ],
+  "set04": [
+    "CC_RES_RES_sample_28",
+    "CC_RES_RES_sample_24",
+    "day3_consultation04",
+    "CC_MSK_MSK_sample_18",
+    "CC_RES_RES_sample_157"
+  ],
+  "set05": [
+    "day3_consultation09",
+    "CC_RES_RES_sample_197",
+    "CC_RES_RES_sample_112",
+    "CC_RES_RES_sample_16",
+    "day2_consultation06"
+  ],
+  "set06": [
+    "CC_RES_RES_sample_3",
+    "day5_consultation03",
+    "CC_RES_RES_sample_5",
+    "CC_RES_RES_sample_105",
+    "day4_consultation08"
+  ],
+  "set07": [
+    "day5_consultation02",
+    "CC_MSK_MSK_sample_42",
+    "CC_RES_RES_sample_65",
+    "CC_RES_RES_sample_101",
+    "CC_RES_RES_sample_97"
+  ],
+  "set08": [
+    "day1_consultation06",
+    "CC_MSK_MSK_sample_44",
+    "CC_RES_RES_sample_45",
+    "CC_RES_RES_sample_104",
+    "CC_RES_RES_sample_85"
+  ],
+  "set09": [
+    "CC_RES_RES_sample_123",
+    "GENHX_GENHX_sample_98",
+    "CC_RES_RES_sample_121",
+    "CC_RES_RES_sample_37",
+    "day3_consultation05"
+  ],
+  "set10": [
+    "CC_RES_RES_sample_55",
+    "CC_RES_RES_sample_153",
+    "CC_MSK_MSK_sample_2",
+    "CC_RES_RES_sample_209",
+    "train_000667_train_08563"
+  ]
+}

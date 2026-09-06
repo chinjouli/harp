@@ -1,0 +1,72 @@
+dataset:
+  _target_: dataset.longemo.LongEmoDataset
+  data_dir: ${HARP_DATA_ROOT}/longemo_dataset/msppodcast_full
+  split: all
+  include_ct: true
+  max_episodes: -1
+  streaming_json: true
+  episode_list: ${HARP_OUT_ROOT}/longemo_dataset/src_dataset/test_episodes.jsonl
+
+extract:
+  out_dir: data/mspemotion
+  spk_audio_dir: data/mspemotion
+  batch_size: 4
+  max_seg_sec: 20.0
+  asr:
+    _target_: extract.audio_expert.asr.whisper.WhisperASR
+    model_name: large-v3-turbo
+  diar:
+    _target_: extract.audio_expert.diar.pyannote.PyannoteDiar
+  audio_emb:
+    _target_: extract.audio_expert.emb.speaker.PyannoteEmb
+  text_emb:
+    _target_: extract.audio_expert.emb.text.SentenceEmb
+    model_name: BAAI/bge-small-en-v1.5
+  domain_labelers:
+    - _target_: extract.domain_expert.emotion.labeler_ser.SERLabeler
+      model_tag: 3loi/SER-Odyssey-Baseline-WavLM-Categorical
+    # CSER checkpoint is external; see extract/README.md
+    - _target_: extract.domain_expert.emotion.labeler_cser.CSERLabeler
+      ckpt_path: ${HARP_CSER_CKPT}
+  domain_embedders:
+    - _target_: extract.domain_expert.emotion.embedder_emo2vec.Emo2VecEmb
+      model_name: emotion2vec/emotion2vec_base
+
+inference:
+  out_dir: data/mspemotion
+  predictions: data/mspemotion/predictions.jsonl
+  queries: data/mspemotion/queries.jsonl
+  task: emotion
+  audio_dir: ${HARP_DATA_ROOT}/longemo_dataset/msppodcast_full/podcasts_flac
+  top_k: 3
+  # available modalities: [time, keyword, label, text_emb, audio_emb, domain_emb, audio]
+  modalities: [time, keyword, label, text_emb, audio_emb, domain_emb, audio]
+  use_vec_cache: true
+  preprocess: true
+  clip_audio_dir: data/mspemotion
+  domain_labeler:
+    _target_: extract.domain_expert.emotion.labeler_ser.SERLabeler
+    model_tag: 3loi/SER-Odyssey-Baseline-WavLM-Categorical
+    device: cpu
+  text_emb:
+    _target_: extract.audio_expert.emb.text.SentenceEmb
+    model_name: BAAI/bge-small-en-v1.5
+  # audio_emb:
+  #   _target_: extract.audio_expert.emb.speaker.PyannoteEmb
+  # domain_emb:
+  #   _target_: extract.domain_expert.emotion.embedder_emo2vec.Emo2VecEmb
+  #   model_name: emotion2vec/emotion2vec_base
+  llm:
+    _target_: inference.llm.qwen3_omni.Qwen3Omni
+    model_id: Qwen/Qwen3-Omni-30B-A3B-Instruct
+    base_url: http://localhost:8091/v1
+
+evaluate:
+  out_dir: data/mspemotion
+  predictions: data/mspemotion/predictions.jsonl
+  gt_dir: data/mspemotion/gt
+  prompts: evaluate.prompts.emotion
+  judge:
+    _target_: evaluate.judge.gemini.GeminiJudge
+    model_id: gemini-3.1-flash-lite
+    max_tokens: 512

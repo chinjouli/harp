@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "harp"
+version = "0.1.0"
+description = "Hybrid audio RAG over long recordings (10 min - 2 h)"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "soundfile",
+    "torch",
+    "torchaudio",
+    "transformers",
+    "faiss-cpu",
+    "pyyaml",
+    "ijson",
+    "openai",
+    "anthropic",
+    "google-genai",
+    "tqdm",
+    "openai-whisper",
+    "silero-vad",
+    "funasr",
+    "scikit-learn",
+    "scipy",
+    "sentence-transformers",
+    # audio expert: diarization + speaker/audio embeddings
+    "pyannote.audio",
+    "openbeats",
+    # music domain expert
+    "ruptures",
+    "librosa",
+    "huggingface_hub",
+]
+
+[project.optional-dependencies]
+# dataset + query construction (dataprep/); also needs ffmpeg on PATH
+prepare = [
+    "pydub",
+    "mutagen",
+    "pandas",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "extract*",
+    "dataset*",
+    "inference*",
+    "evaluate*",
+    "dataprep*",
+]

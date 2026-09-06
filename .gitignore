@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Environments
+.venv*/
+venv/
+
+# Model / HF caches
+hub/
+checkpoints/
+xet/
+*.pt
+*.ckpt
+
+# Run artifacts
+data/
+logs/
+out*.txt
+*.jsonl
+!human_eval/**/*.jsonl
+
+# Human-eval outputs (large, contain embedded audio)
+human_eval/eval_html/
+human_eval/audio_patch/
+human_eval/outcome/
+
+# Local tooling
+.claude/settings.local.json
+.keys
+.env

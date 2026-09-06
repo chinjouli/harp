@@ -1,0 +1,64 @@
+dataset:
+  _target_: dataset.songeval.SongEvalDataset
+  data_dir: ${HARP_OUT_ROOT}/songeval/tracks
+  metadata_path: ${HARP_OUT_ROOT}/songeval/tracks_metadata.jsonl
+  tracks: null   # null = all tracks; or e.g. ["track_00", "track_01"]
+
+extract:
+  out_dir: data/songeval
+  clip_audio_dir: data/songeval
+  batch_size: 4
+  max_seg_sec: 15
+  asr:
+    _target_: extract.audio_expert.asr.whisper.WhisperASR
+    model_name: large-v3-turbo
+  diar:
+    _target_: extract.audio_expert.diar.mert.MERTDiar
+    # defaults: win_sec=10, hop_sec=2, min_seg_sec=90, penalty=12
+  text_emb:
+    _target_: extract.audio_expert.emb.text.SentenceEmb
+    model_name: BAAI/bge-small-en-v1.5
+  audio_emb:
+    _target_: extract.audio_expert.emb.audio.OpenBEATsEmb
+    checkpoint: espnet/OpenBEATS-Large-i2-as20k
+    chunk_seconds: 15
+  domain_labelers:
+    - _target_: extract.domain_expert.music.labeler_aesthetic.MusicAestheticsLabeler
+  domain_embedders:
+    - _target_: extract.domain_expert.music.embedder_mert.MERTEmb
+      model_name: m-a-p/MERT-v1-95M
+
+inference:
+  out_dir: data/songeval
+  predictions: data/songeval/predictions.jsonl
+  queries: data/songeval/queries.jsonl
+  task: music
+  audio_dir: ${HARP_OUT_ROOT}/songeval/tracks
+  top_k: 3
+  # available modalities: [time, keyword, label, text_emb, audio_emb, domain_emb, audio]
+  modalities: [time, keyword, label, text_emb, audio_emb, domain_emb, audio]
+  use_vec_cache: true
+  preprocess: true
+  clip_audio_dir: data/songeval
+  # audio_emb:
+  #   _target_: extract.audio_expert.emb.audio.OpenBEATsEmb
+  #   checkpoint: espnet/OpenBEATS-Large-i2-as20k
+  #   chunk_seconds: 15
+  # domain_emb:
+  #   _target_: extract.domain_expert.music.embedder_mert.MERTEmb
+  #   model_name: m-a-p/MERT-v1-95M
+  llm:
+    _target_: inference.llm.qwen3_omni.Qwen3Omni
+    model_id: Qwen/Qwen3-Omni-30B-A3B-Instruct
+    base_url: http://localhost:8091/v1
+
+evaluate:
+  out_dir: data/songeval
+  predictions: data/songeval/predictions.jsonl
+  gt_dir: data/songeval/gt
+  metadata_path: ${HARP_OUT_ROOT}/songeval/tracks_metadata.jsonl
+  prompts: evaluate.prompts.music
+  judge:
+    _target_: evaluate.judge.gemini.GeminiJudge
+    model_id: gemini-3.1-flash-lite
+    max_tokens: 512

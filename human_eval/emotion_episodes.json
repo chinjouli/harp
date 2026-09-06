@@ -1,0 +1,244 @@
+[
+  {
+    "episode_id": "MSP-PODCAST_0218",
+    "total_queries": 15,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 3
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0566",
+    "total_queries": 15,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 3
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0722",
+    "total_queries": 15,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 3
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0047",
+    "total_queries": 14,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 2
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0228",
+    "total_queries": 14,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 2
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0569",
+    "total_queries": 14,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 2
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0584",
+    "total_queries": 14,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 2
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0597",
+    "total_queries": 14,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 2
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0600",
+    "total_queries": 14,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 2
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0683",
+    "total_queries": 14,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 2
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0709",
+    "total_queries": 14,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 2
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0114",
+    "total_queries": 13,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 1
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0202",
+    "total_queries": 13,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 1
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0340",
+    "total_queries": 13,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 1
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0498",
+    "total_queries": 13,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 1
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0686",
+    "total_queries": 13,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 1
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0692",
+    "total_queries": 13,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 1
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0878",
+    "total_queries": 13,
+    "query_counts": {
+      "comparison": 3,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 1
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0190",
+    "total_queries": 12,
+    "query_counts": {
+      "comparison": 1,
+      "change": 3,
+      "state": 2,
+      "locate": 3,
+      "locate_hard": 3
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0675",
+    "total_queries": 12,
+    "query_counts": {
+      "comparison": 2,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 1
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0700",
+    "total_queries": 12,
+    "query_counts": {
+      "comparison": 2,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 1
+    }
+  },
+  {
+    "episode_id": "MSP-PODCAST_0715",
+    "total_queries": 12,
+    "query_counts": {
+      "comparison": 2,
+      "change": 3,
+      "state": 3,
+      "locate": 3,
+      "locate_hard": 1
+    }
+  }
+]

@@ -1,0 +1,78 @@
+{
+  "emotion": {
+    "state": {
+      "type": "mcq",
+      "multi": true,
+      "choices": [
+        {"label": "A", "text": "Neutral"},
+        {"label": "B", "text": "Happy"},
+        {"label": "C", "text": "Sad"},
+        {"label": "D", "text": "Angry"},
+        {"label": "E", "text": "Surprise"},
+        {"label": "F", "text": "Fear"},
+        {"label": "G", "text": "Disgust"},
+        {"label": "H", "text": "Contempt"}
+      ]
+    },
+    "comparison": {
+      "type": "mcq",
+      "choices": [
+        {"label": "A", "text": "Speaker A"},
+        {"label": "B", "text": "Speaker B"}
+      ]
+    },
+    "change": {
+      "type": "mcq",
+      "choices": [
+        {"label": "A", "text": "Goes up"},
+        {"label": "B", "text": "Goes down"},
+        {"label": "C", "text": "Stays the same"}
+      ]
+    },
+    "locate": {
+      "type": "timestamp",
+      "placeholder": "mm:ss",
+      "note": "Enter the timestamp where the target emotion occurs"
+    },
+    "locate_hard": {
+      "type": "timestamp",
+      "placeholder": "mm:ss",
+      "note": "Enter the timestamp within the given window"
+    }
+  },
+  "music": {
+    "time": {
+      "type": "mcq",
+      "choices": [
+        {"label": "A", "text": "First song"},
+        {"label": "B", "text": "Second song"},
+        {"label": "C", "text": "Tie"}
+      ]
+    },
+    "position": {
+      "type": "mcq",
+      "choices": [
+        {"label": "A", "text": "First song"},
+        {"label": "B", "text": "Second song"},
+        {"label": "C", "text": "Tie"}
+      ]
+    },
+    "audio": {
+      "type": "mcq",
+      "choices": [
+        {"label": "A", "text": "Song A"},
+        {"label": "B", "text": "Song B"},
+        {"label": "C", "text": "Tie"}
+      ]
+    }
+  },
+  "health": {
+    "default": {
+      "type": "mcq",
+      "choices": [
+        {"label": "A", "text": "Yes"},
+        {"label": "B", "text": "No"}
+      ]
+    }
+  }
+}
