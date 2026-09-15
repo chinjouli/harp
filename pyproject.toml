@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "harp"
 version = "0.1.0"
-description = "Hybrid audio RAG over long recordings (10 min - 2 h)"
+description = "Hybrid audio RAG over long recordings"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -37,6 +37,11 @@ dependencies = [
     "librosa",
     "huggingface_hub",
 ]
+
+[project.urls]
+Homepage = "https://github.com/chinjouli/harp"
+Paper = "https://arxiv.org/abs/2609.14116"
+Artifacts = "https://huggingface.co/cjli/harp"
 
 [project.optional-dependencies]
 # dataset + query construction (dataprep/); also needs ffmpeg on PATH

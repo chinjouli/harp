@@ -1,12 +1,13 @@
-# HARP
+# HARP: Agentic Hybrid Retrieval and Analysis for Long-Form Audio
 
-Hybrid audio RAG over long recordings (10 min – 2 h).
+[![arXiv](https://img.shields.io/badge/arXiv-2609.14116-b31b1b)](https://arxiv.org/abs/2609.14116) [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-cjli/harp-ffd21e)](https://huggingface.co/cjli/harp) [![GitHub](https://img.shields.io/badge/GitHub-chinjouli/harp-181717?logo=github)](https://github.com/chinjouli/harp) [![License](https://img.shields.io/badge/License-MIT-3da639)](LICENSE)
 
-HARP answers complex queries that mix four elements — **time**, **speaker/singer**, **content**, and **domain info** (paralinguistic cues) — by extracting a searchable index from raw audio and letting an LLM agent plan retrieval over it. The same structure drives an evaluation agent that retrieves ground truth and scores open-ended outputs.
+Long-form audio analysis requires systems to localize and integrate evidence distributed across extended recordings. While existing work primarily retrieves semantic content through structured textual representations, many real-world queries depend on acoustic evidence that is better preserved in continuous representations or raw audio.
+HARP (Hybrid Audio Retrieval Pipeline) is an agentic framework and benchmark for systematically studying retrieval and evidence representations in long-audio analysis.
+HARP extracts a searchable index from raw audio and lets an LLM agent plan retrieval over it, answering queries that mix **time**, **speaker**, **content**, and **domain info**. The same structure drives an evaluation agent that retrieves ground truth and scores open-ended outputs.
 
-Three tasks ship: **emotion recognition** (MSP-Podcast + MSP-Conversation), **music evaluation** (SongEval), and **healthcare conversation** (MedMosaic).
 
-## Install
+### Install
 
 ```bash
 uv venv && source .venv/bin/activate
@@ -18,11 +19,9 @@ export HF_TOKEN=...                       # pyannote diarization
 export GEMINI_API_KEY=...                 # default judge
 ```
 
-Two domain experts need artifacts that are not on PyPI or Hugging Face — a CoughKit checkout for health, a CSER checkpoint for emotion. Both are optional; see [`extract/README.md`](extract/README.md).
+Run all commands from the repo root. Two optional domain experts need artifacts that are not on PyPI or Hugging Face — a CoughKit checkout, a CSER checkpoint; see [`extract/README.md`](extract/README.md).
 
-Run all commands from the repo root.
-
-## Pipeline
+### Pipeline
 
 ```bash
 # 1. extract: diarization + ASR + embeddings, then domain labels
@@ -41,7 +40,9 @@ python scripts/run_score.py data/mspemotion
 
 For a local backbone, start vLLM first and point `llm.base_url` at it: `scripts/serve_vllm.sh [text|omni]`.
 
-## Layout
+Retrieval setups (`text`, `embed`, `hybrid`, `hybrid_all`, `hybrid_audio`) are two keys in the config — see [`conf/README.md`](conf/README.md). The scores this produces are defined in [`evaluate/README.md`](evaluate/README.md).
+
+### Layout
 
 Each directory has its own README with the details.
 
@@ -54,95 +55,33 @@ Each directory has its own README with the details.
 | [`human_eval/`](human_eval/README.md) | Self-contained HTML annotation UI + scoring |
 | [`dataset/`](dataset/README.md) | `EpisodeDataset` loaders and GT processing |
 | [`dataprep/`](dataprep/README.md) | Building the corpora and queries from raw sources |
-| `scripts/` | Entry points; `slurm/` holds site-specific job files |
+| [`scripts/`](scripts/README.md) | Entry points and Slurm job files |
 
-Run artifacts live under `extract.out_dir` (e.g. `data/mspemotion/`) and are gitignored: `cache/` from stage 1, `segments/` and `faiss/` from stage 2, plus `queries.jsonl`, `predictions*.jsonl`, and `scores*.jsonl`.
+Each README ends with how to extend that part — a new expert, dataset, backbone, judge or task.
 
-## Data preparation
+### Data
 
-Corpora are not redistributed here. [`dataprep/`](dataprep/README.md) has one runner per task with two stages, run in order:
-
-```bash
-uv pip install -e ".[prepare]"
-dataprep/run_music.sh audio   --src /data/songeval --out /derived/songeval  # download + build
-dataprep/run_music.sh queries --src /data/songeval --out /derived/songeval  # rebuild the JSON
-```
-
-`audio` downloads the corpus and merges/crops it into the exact audio HARP runs on; it is deterministic, so you get the same audio we did. `queries` regenerates the query JSON from that audio — only needed to change the benchmark, since the JSON is released.
-
-SongEval (CC BY-NC-SA 4.0) and MedMosaic (CC BY 4.0) download from Hugging Face automatically; [MSP-Podcast](https://lab-msp.com/MSP/MSP-Podcast.html) and [MSP-Conversation](https://lab-msp.com/MSP/MSP-Conversation.html) need a signed academic licence and must be unpacked by hand.
-
-Prepared queries for music and health, plus the CSER checkpoint, are published at [cjli/harp](https://huggingface.co/cjli/harp):
+[`dataprep/`](dataprep/README.md) rebuilds each corpus and its queries in two stages: `audio` downloads the corpus and crops it into the audio HARP runs on, `queries` regenerates the query JSON. Both are deterministic.
 
 ```bash
-huggingface-cli download cjli/harp --local-dir $HARP_OUT_ROOT
+huggingface-cli download cjli/harp --local-dir $HARP_OUT_ROOT   # music + health queries, CSER ckpt
+dataprep/run_music.sh audio --src /raw/songeval --out $HARP_OUT_ROOT/songeval
+cat $HARP_OUT_ROOT/songeval/queries/*.jsonl > data/songeval/queries.jsonl
 ```
 
-The emotion queries are not: the MSP licence forbids redistribution and the queries quote transcript. Regenerate them with `run_emotion.sh all` once you hold MSP — generation is seeded and deterministic, so you get the same benchmark. Emotion needs three downloads — NaturalVoices for audio and transcripts, MSP-Podcast and MSP-Conversation for the human labels; [`dataprep/emotion/`](dataprep/emotion/README.md) has the layout and says which labels back each query type.
+SongEval and MedMosaic download automatically. MSP needs a signed academic licence and three separate downloads, and its queries are not redistributed — regenerate them locally; see [`dataprep/emotion/`](dataprep/emotion/README.md).
 
-Prepared queries are concatenated into the run directory before inference:
+### Citing
 
-```bash
-cat /derived/songeval/queries/*.jsonl > data/songeval/queries.jsonl
+```bibtex
+@article{li2026harp,
+  title   = {{HARP}: Agentic Hybrid Retrieval and Analysis for Long-Form Audio},
+  author  = {Li, Chin-Jou and Someki, Masao and Jin, Woojeong and
+             Siriwardena, Yashish M. and Laud, Tanmay and Puri, Shanil and
+             Watanabe, Shinji},
+  journal = {arXiv preprint arXiv:2609.14116},
+  year    = {2026}
+}
 ```
 
-## Retrieval setups
-
-The configs ship as **`hybrid_all`**. The other setups come from editing `inference.modalities` and `inference.strip_domain`:
-
-| Setup | Retrieval | Evidence shown |
-|---|---|---|
-| `text` | keyword search + label lookup | metadata |
-| `embed` | vector search | metadata |
-| `hybrid` | keyword **and** vector search | metadata |
-| `hybrid_all` | hybrid search | metadata **and** audio |
-| `hybrid_audio` | hybrid search | audio only |
-
-`inference.oracle: true` builds the plan from ground truth instead — an upper bound on answering when retrieval is perfect. See [`conf/README.md`](conf/README.md).
-
-## Scoring
-
-Predictions are open-ended, so an LLM judge scores them. Because the `plan` and `evidence_sets` are saved with each answer, retrieval is scored separately from answering.
-
-| Score | Type | Question |
-|---|---|---|
-| `answer` | 0/1 | Does the prediction match the GT answer? |
-| `factual` | 0/1 | Are the rationale's claims consistent with GT evidence? |
-| `faithful` | 0/1 | Does the rationale stay grounded in the retrieved evidence? |
-| `rationale` | 0/1 | `factual & faithful` |
-| `retrieval_hit_rate` | float | GT evidence segments the retrieval found |
-| `plan_hit_rate` | float | GT evidence segments the plan's windows covered |
-
-`run_score.py` aggregates by query type. Use a judge from a different family than the candidate; `run_judgeeval.py` reports inter-judge agreement.
-
-## Config convention
-
-Plain YAML with `_target_` for dynamic class loading (no Hydra); `utils.build_from_cfg` instantiates recursively, passing the remaining keys as constructor kwargs.
-
-```yaml
-extract:
-  asr:
-    _target_: extract.audio_expert.asr.whisper.WhisperASR
-    model_name: large-v3-turbo
-```
-
-## Extending
-
-- **ASR / diarizer / embedder** → subclass a base in `extract/audio_expert/base.py`, drop the file in the matching subdirectory.
-- **New task** → domain experts under `extract/domain_expert/{task}/`, plus `inference/prompts/{task}.py` and `evaluate/prompts/{task}.py`.
-- **New dataset** → subclass `EpisodeDataset`.
-- **New LLM or judge** → satisfy `LLMBase` / `JudgeBase`, swap `_target_`.
-
-## Citing
-
-HARP builds on three corpora; please cite whichever you use. BibTeX lives in each task's preparation README — [MSP-Podcast + MSP-Conversation](dataprep/emotion/README.md#citation), [SongEval](dataprep/music/README.md#citation), [MedMosaic](dataprep/health/README.md#citation).
-
-## Slurm
-
-`scripts/slurm/` holds job files for a GPU cluster. Set `--partition` and `--account` for your site before use — they ship as `CHANGE_ME`. A starting point, not a portable interface.
-
-```bash
-sbatch scripts/slurm/extract.sbatch conf/emotion_hybrid_all.yaml 1
-sbatch scripts/slurm/infer.sbatch conf/emotion_hybrid_all.yaml --resume
-sbatch scripts/slurm/serve_vllm.sbatch omni
-```
+The paper evaluates on three corpora — please also cite any you use. BibTeX is in each task's preparation README: [MSP-Podcast + MSP-Conversation](dataprep/emotion/README.md#citation), [SongEval](dataprep/music/README.md#citation), [MedMosaic](dataprep/health/README.md#citation).
